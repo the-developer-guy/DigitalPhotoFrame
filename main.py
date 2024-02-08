@@ -8,6 +8,14 @@ def create_image(file_path: str, width: int, height: int) -> ImageTk.PhotoImage:
     image = Image.open(file_path).resize((width, height))
     return ImageTk.PhotoImage(image)
 
+def is_media_file(file_path: str) -> bool:
+    supported_types = [".jpg", ".jpeg", ".png"]
+    if os.path.isfile(file_path):
+        for supported_type in supported_types:
+            if file_path.endswith(supported_type) is True:
+                return True
+    return False
+
 class MyCarousel:
     def __init__(self, root, monitor_width, monitor_height) -> None:
         self.root = root
@@ -20,13 +28,11 @@ class MyCarousel:
         self.change_image()
 
     def update_images(self, width, height):
+
         self.image_list = [create_image(f"media/{f}", width, height)
                             for f 
                             in os.listdir("media") 
-                            if os.path.isfile(f"media/{f}") 
-                            and f.endswith(".jpg") 
-                            or f.endswith(".jpeg") 
-                            or f.endswith(".png")]
+                            if is_media_file(f"media/{f}")]
 
     def change_image(self):
         self.counter += 1
