@@ -11,7 +11,7 @@ else:
     root.attributes('-fullscreen', True)
     try:
         monitor_width, monitor_height = int(sys.argv[1]), int(sys.argv[2])
-    except:
+    except Exception:
         monitor_width, monitor_height = 1920, 1080
 
 root.geometry(f"{monitor_width}x{monitor_height}")

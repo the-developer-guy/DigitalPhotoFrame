@@ -1,12 +1,13 @@
 import os
-from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
 
 
-def create_image(file_path: str, width: int, height: int) -> ImageTk.PhotoImage:
+def create_image(file_path: str,
+                 width: int, height: int) -> ImageTk.PhotoImage:
     image = Image.open(file_path).resize((width, height))
     return ImageTk.PhotoImage(image)
+
 
 def is_media_file(file_path: str) -> bool:
     supported_types = [".jpg", ".jpeg", ".png"]
@@ -16,6 +17,7 @@ def is_media_file(file_path: str) -> bool:
                 return True
     return False
 
+
 class MyCarousel:
     def __init__(self, root, monitor_width, monitor_height) -> None:
         self.root = root
@@ -23,16 +25,18 @@ class MyCarousel:
         self.monitor_width = monitor_width
         self.monitor_height = monitor_height
         self.update_images(self.monitor_width, self.monitor_height)
-        self.imageLabel = ttk.Label(self.root, image=self.image_list[0], anchor="center")
+        self.imageLabel = ttk.Label(self.root,
+                                    image=self.image_list[0],
+                                    anchor="center")
         self.imageLabel.grid(row=0, column=0, sticky="NWSE")
         self.change_image()
 
     def update_images(self, width, height):
 
         self.image_list = [create_image(f"media/{f}", width, height)
-                            for f 
-                            in os.listdir("media") 
-                            if is_media_file(f"media/{f}")]
+                           for f
+                           in os.listdir("media")
+                           if is_media_file(f"media/{f}")]
 
     def change_image(self):
         self.counter += 1
