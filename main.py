@@ -14,7 +14,8 @@ class MyCarousel:
 
     def update_images(self):
         self.image_list = [ImageTk.PhotoImage(Image.open(f"media/{f}").resize((1280, 720))) for f 
-              in os.listdir("media") if os.path.isfile(f"media/{f}") and f.endswith(".jpg")]
+              in os.listdir("media") if os.path.isfile(f"media/{f}") 
+                and f.endswith(".jpg") or f.endswith(".jpeg") or f.endswith(".png")]
 
     def change_image(self):
         self.counter += 1
