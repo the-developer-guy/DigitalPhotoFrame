@@ -13,8 +13,8 @@ class MyCarousel:
         self.change_image()
 
     def update_images(self):
-        self.image_list = [ImageTk.PhotoImage(Image.open(f"images/{f}").resize((800, 600))) for f 
-              in os.listdir("images") if os.path.isfile(f"images/{f}") and f.endswith(".jpg")]
+        self.image_list = [ImageTk.PhotoImage(Image.open(f"media/{f}").resize((1280, 720))) for f 
+              in os.listdir("media") if os.path.isfile(f"media/{f}") and f.endswith(".jpg")]
 
     def change_image(self):
         self.counter += 1
@@ -25,7 +25,7 @@ class MyCarousel:
 
 root = Tk()
 root.attributes('-fullscreen', True)
-root.geometry("610x430")
+root.geometry("1280x720")
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 carousel = MyCarousel(root)
