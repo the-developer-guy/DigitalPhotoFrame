@@ -1,21 +1,28 @@
 import os
+import sys
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
 
 class MyCarousel:
-    def __init__(self, root) -> None:
+    def __init__(self, root, monitor_width, monitor_height) -> None:
         self.root = root
         self.counter = 0
+        self.monitor_width = monitor_width
+        self.monitor_height = monitor_height
         self.update_images()
         self.imageLabel = ttk.Label(self.root, image=self.image_list[0], anchor="center")
         self.imageLabel.grid(row=0, column=0, sticky="NWSE")
         self.change_image()
 
     def update_images(self):
-        self.image_list = [ImageTk.PhotoImage(Image.open(f"media/{f}").resize((1280, 720))) for f 
-              in os.listdir("media") if os.path.isfile(f"media/{f}") 
-                and f.endswith(".jpg") or f.endswith(".jpeg") or f.endswith(".png")]
+        self.image_list = [ImageTk.PhotoImage(Image.open(f"media/{f}").resize((self.monitor_width, self.monitor_height))) 
+                            for f 
+                            in os.listdir("media") 
+                            if os.path.isfile(f"media/{f}") 
+                            and f.endswith(".jpg") 
+                            or f.endswith(".jpeg") 
+                            or f.endswith(".png")]
 
     def change_image(self):
         self.counter += 1
@@ -25,11 +32,18 @@ class MyCarousel:
         self.root.after(5_000, self.change_image)
 
 root = Tk()
-root.attributes('-fullscreen', True)
-root.geometry("1280x720")
+
+if len(sys.argv) > 1 and sys.argv[1] == "debug":
+    root.attributes('-fullscreen', False)
+    monitor_width, monitor_height = 960, 540
+else:
+    root.attributes('-fullscreen', True)
+    monitor_width, monitor_height = 1920, 1080
+
+root.geometry(f"{monitor_width}x{monitor_height}")
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
-carousel = MyCarousel(root)
+carousel = MyCarousel(root, monitor_width, monitor_height)
 
 # run the main loop
 root.mainloop()
