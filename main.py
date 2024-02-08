@@ -4,19 +4,23 @@ from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
 
+def create_image(file_path: str, width: int, height: int) -> ImageTk.PhotoImage:
+    image = Image.open(file_path).resize((width, height))
+    return ImageTk.PhotoImage(image)
+
 class MyCarousel:
     def __init__(self, root, monitor_width, monitor_height) -> None:
         self.root = root
         self.counter = 0
         self.monitor_width = monitor_width
         self.monitor_height = monitor_height
-        self.update_images()
+        self.update_images(self.monitor_width, self.monitor_height)
         self.imageLabel = ttk.Label(self.root, image=self.image_list[0], anchor="center")
         self.imageLabel.grid(row=0, column=0, sticky="NWSE")
         self.change_image()
 
-    def update_images(self):
-        self.image_list = [ImageTk.PhotoImage(Image.open(f"media/{f}").resize((self.monitor_width, self.monitor_height))) 
+    def update_images(self, width, height):
+        self.image_list = [create_image(f"media/{f}", width, height)
                             for f 
                             in os.listdir("media") 
                             if os.path.isfile(f"media/{f}") 
